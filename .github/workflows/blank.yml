@@ -1,21 +1,36 @@
-name: eks
-on: [push,workflow_dispatch]
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
         uses: actions/checkout@v4
+      
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ap-south-1
+      
       - name: Setup Kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
-
+          aws eks update-kubeconfig --name groot --region ap-south-1
+      
+      - name: Debug Kubernetes Auth
+        run: kubectl get nodes  # Ensure authentication works
+      
       - name: Deployment
         uses: Pablommr/kubernetes-eks@v2.1.1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
-          KUBE_YAML: ./deployment.yaml
+          KUBE_YAML: path_to_file/file.yml
