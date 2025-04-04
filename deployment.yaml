@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      pod: pod1
+  template:
+    metadata:
+      labels:
+        pod: pod1
+    spec:
+      containers: 
+        - name: container1
+          image: mysql:latest
+          ports:
+            - containerPort: 3309
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database1
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database1
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database1
+                  key: MYSQL_USER
