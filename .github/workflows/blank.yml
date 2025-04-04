@@ -1,12 +1,17 @@
 name: eks
-on:
-  workflow_dispatch:
+on: [push,workflow_dispatch]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 
         uses: actions/checkout@v4
+      - name: Setup Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+
       - name: Deployment
         uses: Pablommr/kubernetes-eks@v2.1.1
         env:
