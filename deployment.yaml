@@ -9,8 +9,8 @@ spec:
       pod: pod2
   template:
     metadata:
-    labels:
-      pod: pod2
+      labels:
+        pod: pod2
     spec:
       containers:
         - name: container1
