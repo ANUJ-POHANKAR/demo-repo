@@ -20,16 +20,16 @@ spec:
         env:
           - name: MYSQL_USER
             valueFrom:
-            secretKeyRef:
-              name: database1
-              key: MYSQL_USER
+              secretKeyRef:
+                name: database1
+                key: MYSQL_USER
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
-            secretKeyRef:
-              name: database1
-              key: MYSQL_ROOT_PASSWORD
+              secretKeyRef:
+                name: database1
+                key: MYSQL_ROOT_PASSWORD
           - name: MYSQL_PASSWORD
             valueFrom:
-            secretKeyRef:
-              name: database1
-              key: MYSQL_PASSWORD
+              secretKeyRef:
+                name: database1
+                key: MYSQL_PASSWORD
