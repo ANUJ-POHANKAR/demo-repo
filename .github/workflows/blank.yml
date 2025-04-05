@@ -14,3 +14,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
           KUBE_YAML: mysql-deploy.yaml
+## make sure user whoes access keys youare using example andy must have access got to eks create access entry add arn of iam user andy and attach policy AmazonEKSclusteradminpolicy
+## then update aws eks update-kubeconfig --region region-code --name my-cluster   then  base64 -w 0 ~/.kube/config   then copy secret and paste in secret KUBECONFIG 
